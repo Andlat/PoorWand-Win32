@@ -6,7 +6,6 @@
 //  Copyright © 2018 poorwand. All rights reserved.
 //
 
-
 #include <iostream>
 #include <memory>
 
@@ -19,25 +18,24 @@
 #pragma cland diagnostic pop
 
 #include "Window.hpp"
+#include "Game.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    unique_ptr<Window> window;
+    shared_ptr<Window> window;
+    unique_ptr<Game> game;
+    
     try{
-        window = make_unique<Window>(800, 500, "TEST");
+        window = make_shared<Window>(800, 500, "PoorWand");
     }catch(Window::exception &ex){
         cerr << ex.what() << endl;
         return -1;
     }
     
-    while(!glfwWindowShouldClose(window->get())){
-        glClearColor(0.8f, 0, 0.5f, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glfwSwapBuffers(window->get());
-        glfwPollEvents();
-    }
+    game = make_unique<Game>(window);
+    game->Loop();
+    cout << "Game started" << endl;
     
     return 0;
 }
