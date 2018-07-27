@@ -15,7 +15,6 @@ Window::Window(const short w, const short h, const char* title) /* throws except
 }
 
 Window::~Window(){
-    std::cout << "okOk" << std::endl;
     glfwDestroyWindow(mWindow);
     glfwTerminate();
 }
