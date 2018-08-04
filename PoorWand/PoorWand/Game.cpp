@@ -25,6 +25,8 @@ void Game::Loop(){
         glClearColor(0.8f, 0, 0.5f, 0);
         glClear(GL_COLOR_BUFFER_BIT);
         
+        
+        
         glfwSwapBuffers(mWindow->get());
         glfwPollEvents();
     }
