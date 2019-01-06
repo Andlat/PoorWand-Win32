@@ -10,6 +10,7 @@
 #define Game_hpp
 
 #include <memory>
+#include <chrono>
 
 #include "Window.hpp"
 
@@ -18,9 +19,17 @@ public:
     Game(std::shared_ptr<Window> window);
     ~Game();
     
+    long getTimeDelta();
     void Loop();
 private:
+    GLuint VAO, VBO;
+    
+    void TrackTimeDelta();
+    
     const std::shared_ptr<Window> mWindow;
+    
+    std::chrono::high_resolution_clock::time_point mLastFrameTime;
+    long mTimeDelta;
 };
 
 #endif /* Game_hpp */

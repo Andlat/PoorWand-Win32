@@ -26,6 +26,8 @@ public:
     
     GLFWwindow* get();
     
+    int getWidth(), getHeight();
+    
     /** Window Exceptions **/
     class exception : std::exception {
     public:

@@ -19,7 +19,11 @@ Window::~Window(){
     glfwTerminate();
 }
 
+
 GLFWwindow* Window::get(){ return mWindow; }
+
+int Window::getWidth(){ return mPxWidth; }
+int Window::getHeight(){ return mPxHeight; }
 
 void Window::init(const short w, const short h) /* throws exception */ {
     if(!glfwInit())
@@ -29,6 +33,8 @@ void Window::init(const short w, const short h) /* throws exception */ {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);//OpenGL 3.3
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);//For OS X / MAC OS
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//Use OpenGL core
+    
+    glfwWindowHint(GLFW_SAMPLES, 4);
     
     mWindow = glfwCreateWindow(w, h, mTitle, nullptr, nullptr);
     if(!mWindow)
@@ -42,6 +48,12 @@ void Window::init(const short w, const short h) /* throws exception */ {
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK)
         throw Window::exception("Failed to init GLEW.");
+    
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    
+    glEnable(GL_MULTISAMPLE);
     
     glViewport(0, 0, mPxWidth, mPxHeight);
 }
