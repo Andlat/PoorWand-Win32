@@ -30,3 +30,6 @@ vector<string> misc::explode(const string s, const char del){
     exploded.push_back(part);//Add the last part
     return exploded;
 }
+
+unsigned misc::Mb2Bytes(unsigned mb){ return mb*1024*1024; }
+unsigned misc::Bytes2Mb(unsigned bytes){ return bytes/(1024*1024); }

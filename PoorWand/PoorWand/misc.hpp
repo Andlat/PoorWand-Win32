@@ -28,6 +28,9 @@ namespace misc{
         }
         return oss.str();
     }
+    
+    unsigned Mb2Bytes(unsigned mb);
+    unsigned Bytes2Mb(unsigned bytes);
 }
 
 #endif /* misc_hpp */

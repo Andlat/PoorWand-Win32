@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cmath>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
@@ -29,6 +30,7 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "KeyboardS.hpp"
+#include "TextureManager.hpp"
 
 using namespace std;
 
@@ -39,7 +41,7 @@ Game::Game(shared_ptr<Window> window)
 }
 
 Game::~Game(){
-    glDeleteBuffers(1, &VBO);
+    mVBOMan->Delete();
     glDeleteVertexArrays(1, &VAO);
 }
 
@@ -56,45 +58,36 @@ void Game::TrackTimeDelta(){
     mLastFrameTime = currentTime;
 }
 
-void Game::Loop(){
-    shared_ptr<Hero> hero = ModelLoader().Parse<Hero>(PATH::MODELS+"sphere_tex_bones.dat");
-    hero->Construct(0);
-    hero->setSpeed(3.f);
+shared_ptr<Shader> Game::CreateBasicShader(shared_ptr<ShaderProgram> program, string shader_path, GLuint type){
+    if(type != GL_VERTEX_SHADER && type != GL_FRAGMENT_SHADER) return nullptr;
     
-    shared_ptr<MovingModel> wall1 = ModelLoader().Parse<MovingModel>(PATH::MODELS+"cube1.dat");
-    wall1->Construct(1);
+    shared_ptr<Shader> shader = nullptr;
+    try{
+        shader = make_shared<Shader>(type);
+        
+        shader->Load(shader_path);
+        
+        shader->Compile();
+        
+        program->Attach(shader.get())->Link();
+        
+    }catch(Shader::ShaderException e){
+        cerr << e.what() << endl;
+        return nullptr;//Exit from game
+    }
     
-    shared_ptr<MovingModel> wall2 = ModelLoader().Parse<MovingModel>(PATH::MODELS+"cube1.dat");
-    wall2->Construct(1);
+    return shader;
+}
 
-    shared_ptr<MovingModel> wall3 = ModelLoader().Parse<MovingModel>(PATH::MODELS+"cube1.dat");
-    wall3->Construct(1);
-    
-    shared_ptr<MovingModel> wall4 = ModelLoader().Parse<MovingModel>(PATH::MODELS+"cube1.dat");
-    wall4->Construct(1);
-    
-    wall1->StaticTranslate(glm::vec3(3, -2, 0));
-    wall2->StaticTranslate(glm::vec3(-3, 2, 0));
-    wall3->StaticTranslate(glm::vec3(3, 2, 0));
-    wall4->StaticTranslate(glm::vec3(-3, -2, 0));
-    
-    vector<float> buff = hero->getBuffer();
-    wall1->AppendToGlobalBuffer(buff);
-    wall2->AppendToGlobalBuffer(buff);
-    wall3->AppendToGlobalBuffer(buff);
-    wall4->AppendToGlobalBuffer(buff);
-    
+void Game::Init(){
+    //Create VAO
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //Create VBO
+    mVBOMan = make_unique<VBOManager>();
     
-    //Set buffer data
-    const unsigned buff_byte_size = (unsigned)buff.size()*FLOAT_SIZE();
-    glBufferData(GL_ARRAY_BUFFER, buff_byte_size, &buff[0], GL_DYNAMIC_DRAW);
-    
-    cout << buff.size() << endl;
+    //Set attribs
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, GL_ATTR::STRIDE*FLOAT_SIZE(), (GLvoid*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, GL_ATTR::STRIDE*FLOAT_SIZE(), (GLvoid*)(3*FLOAT_SIZE()));
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, GL_ATTR::STRIDE*FLOAT_SIZE(), (GLvoid*)(6*FLOAT_SIZE()));
@@ -106,61 +99,91 @@ void Game::Loop(){
     glEnableVertexAttribArray(2);
     glEnableVertexAttribArray(3);
     
-    //Create shaders
-    ShaderProgram program = ShaderProgram();
-     try{
-         Shader vshader(GL_VERTEX_SHADER), fshader(GL_FRAGMENT_SHADER);
-        
-         vshader.Load(PATH::SHADERS+"basic.v.glsl");
-         fshader.Load(PATH::SHADERS+"basic.f.glsl");
-         
-         vshader.Compile();
-         fshader.Compile();
-
-         program.Attach(&vshader)->Attach(&fshader);
-         
-         program.Link();
-         
-         program.Detach(&vshader)->Detach(&fshader);
-         vshader.Delete();
-         fshader.Delete();
-     }catch(Shader::ShaderException e){
-         cerr << e.what() << endl;
-         return;//Exit from game
-     }
-    glUseProgram(program.get());
-
-    cout << "ERROR: " << to_string(glGetError()) << endl;
     
+    //Load models and create map
+    hero = ModelLoader().Parse<Hero>(PATH::MODELS+"guy3.dat");
+    hero->Construct(0);
+    hero->setSpeed(5.f);
+    cout << misc::to_string(hero->getJoints()) << endl;
+    
+    wall = ModelLoader().Parse<MovingModel>(PATH::MODELS+"cube1.dat");
+    wall->Construct(1);
+    
+    heroID = mVBOMan->addModel(hero);
+    hero->LoadTexture(true, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR);//For now, all the models use the same texture
+    
+    //Exemple creating multiple static objects with only one model and one camera
+    for(unsigned x=0; x < 2; ++x){
+        glm::vec3 pos(3 * pow(-1.f, x%2), 0.f, 0.f);
+        
+        for(unsigned y=0; y < 2; ++y){
+            pos.y = 2 * pow(-1.f, y%2);
+            
+            wall->StaticTranslate(pos);
+            mVBOMan->addModel(wall);
+            
+            //Replace wall to origin. Shouldn't do it like this, since StaticTranslate uses a lot of clock cycles, but for a demo, it's ok
+            wall->StaticTranslate(pos *= -1);
+        }
+    }
+    TextureManager l;
+    
+    
+    //Create Shaders
+    program = make_shared<ShaderProgram>();
+    auto vshader = this->CreateBasicShader(program, PATH::SHADERS+"basic.v.glsl", GL_VERTEX_SHADER);
+    auto fshader = this->CreateBasicShader(program, PATH::SHADERS+"basic.f.glsl", GL_FRAGMENT_SHADER);
+    program->Detach(vshader.get())->Detach(fshader.get());
+    vshader->Delete();
+    fshader->Delete();
+    
+    cout << mVBOMan->getMemoryOffset() << endl;
+    cout << "ERROR: " << to_string(glGetError()) << endl;
+}
+
+
+
+void Game::Loop(){
     //Temporary camera
     //hero->Translate(glm::vec3(5, 4, 0));//->Scale(0.75);
     
-    Camera camera = Camera(0.1f, 100.f, (float)mWindow->getWidth()/(float)mWindow->getHeight(), C_PI_4);
-    camera.setPosition(glm::vec3(0, 0, 10));
-    camera.Follow(hero, false);
+    //TEST VBOMAN->REMOVEMODEL
+    KeyboardS& keyboard = KeyboardS::Instance();
+    keyboard.addKey(GLFW_KEY_O, GLFW_PRESS, [this](GLFWwindow* window, int mods){
+        cout << "HELLO " << endl;
+        this->mVBOMan->removeModel(this->heroID, true);//TODO ERROR WHEN COMPACTING
+    });
     
-    hero->LoadTexture(true, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
+    Camera camera = Camera(0.1f, 100.f, (float)mWindow->getWidth()/(float)mWindow->getHeight(), C_PI_4);
+    camera.setPosition(glm::vec3(0, 0, 15));
+    //camera.Follow(hero, false);
+    
+    glUseProgram(program->get());
+    
+    //Send texture. Every model is using the same texture //TODO texture manager
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, hero->getTexture());
     
     while(!glfwWindowShouldClose(mWindow->get())){
         TrackTimeDelta();
         
         //Execute the hero's movements
-        hero->ActivateFrameControls(getTimeDelta());
+        if(heroID != 0){
+            hero->ActivateFrameControls(getTimeDelta());
+        }
         
         glClearColor(0.8f, 0, 0.5f, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        //Send texture //TODO texture manager
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, hero->getTexture());
-        glUniform1i(glGetUniformLocation(program.get(), "tex"), GL_TEXTURE0-GL_TEXTURE0);
-        
+        glUniform1i(glGetUniformLocation(program->get(), "tex"), GL_TEXTURE0-GL_TEXTURE0);
+    
         //Send cameras
-        const glm::mat4 mvp[] = {camera.Construct(hero->getModelMat()), camera.Construct(wall1->getModelMat())};
+        const glm::mat4 mvp[] = {camera.Construct(hero->getModelMat()), camera.Construct(wall->getModelMat())};
        
-        glUniformMatrix4fv(glGetUniformLocation(program.get(), "MVP"), 2, GL_FALSE, glm::value_ptr(mvp[0]));
-       
-        glDrawArrays(GL_TRIANGLES, 0, ((unsigned)buff.size()/GL_ATTR::STRIDE));
+        glUniformMatrix4fv(glGetUniformLocation(program->get(), "MVP"), 2, GL_FALSE, glm::value_ptr(mvp[0]));
+    
+        glDrawArrays(GL_TRIANGLES, 0, mVBOMan->getMemoryOffset()/(FLOAT_SIZE() * GL_ATTR::STRIDE));
         //cout << getTimeDelta() << endl;
         
         glfwSwapBuffers(mWindow->get());
@@ -168,4 +191,6 @@ void Game::Loop(){
         
         //break;
     }
+    
+    program->Delete();
 }

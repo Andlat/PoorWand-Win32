@@ -31,7 +31,7 @@ int main(int argc, const char * argv[]) {
     unique_ptr<Game> game;
     
     try{
-        window = make_shared<Window>(800, 500, "PoorWand");
+        window = make_shared<Window>(1000, 700, "PoorWand");
         
         //Initialize the keyboard
         KeyboardS& keyboard = KeyboardS::Instance();
@@ -48,6 +48,7 @@ int main(int argc, const char * argv[]) {
         
         
         game = make_unique<Game>(window);
+        game->Init();
         game->Loop();
     }catch(Window::exception &ex){
         cerr << ex.what() << endl;

@@ -35,7 +35,8 @@ public:
     Model();
     virtual ~Model() =0;
     
-    std::vector<float> Construct(float mvp_index);/** Construct the model's OpenGL buffer **/
+    /** Construct the model's OpenGL buffer **/
+    std::vector<float> Construct(float mvp_index);
     std::vector<float> getBuffer();
     
     void AppendToGlobalBuffer(std::vector<float>& global_buffer);
@@ -74,7 +75,6 @@ public:
     glm::vec3 getTranslation();
     
 private:
-    //GLuint VBO;
     std::vector<float> mBuffer = std::vector<float>();
     
     std::vector<std::shared_ptr<Vertex>> mVertices = std::vector<std::shared_ptr<Vertex>>();
