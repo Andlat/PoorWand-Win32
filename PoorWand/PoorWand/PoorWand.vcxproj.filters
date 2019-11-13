@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{e3c2dd57-0a3d-4ce0-b7c2-75b11dc0fee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\models">
+      <UniqueIdentifier>{8a5bce48-1910-4ced-97f0-c8fe2618c7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\models\textures">
+      <UniqueIdentifier>{0ba4d58b-8e9d-493f-9ec5-5f5ace5d7608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{c9f68f8e-55ea-43cb-abf0-22e5fbdff18b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VBOManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ControlledModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Joint.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JointGroup.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Model.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ModelLoader.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\MovingModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Vertex.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalTypedefs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardS.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VBOManager.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ControlledModel.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Joint.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JointGroup.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Model.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ModelLoader.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\MovingModel.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Vertex.hpp">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Model\ModelLoader.inl">
+      <Filter>Source Files\Model</Filter>
+    </None>
+    <None Include="res\shaders\basic.f.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="res\shaders\basic.v.glsl">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="res\models\bones_cube.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\bones_cube.mtl">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube_smiley.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube_smiley.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube_tex.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube_tex.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube1.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\cube1.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\custom.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\guy2.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\guy2.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\guy3.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\guy3.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\hourglass.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\sphere.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\sphere_tex_bones.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\sphere_tex_bones.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\test.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\thing.dae">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="res\models\thing.dat">
+      <Filter>Resource Files\models</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\models\textures\cube_sides.png">
+      <Filter>Resource Files\models\textures</Filter>
+    </Image>
+    <Image Include="res\models\textures\guy.png">
+      <Filter>Resource Files\models\textures</Filter>
+    </Image>
+    <Image Include="res\models\textures\guy2.png">
+      <Filter>Resource Files\models\textures</Filter>
+    </Image>
+    <Image Include="res\models\textures\hourglass.jpg">
+      <Filter>Resource Files\models\textures</Filter>
+    </Image>
+    <Image Include="res\models\textures\kitchen.png">
+      <Filter>Resource Files\models\textures</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

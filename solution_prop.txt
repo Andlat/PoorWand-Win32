@@ -1,0 +1,11 @@
+opengl32.lib
+glew32s.lib
+glfw3.lib
+soil2-debug.lib
+
+C:\usr\lib\x86
+C:\usr\include
+$(SolutionDir)/PoorWand
+$(SolutionDir)/PoorWand/Model
+
+GLEW_STATIC
