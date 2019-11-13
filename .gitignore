@@ -1,4 +1,7 @@
-.DS_Store
+#Visual Studio directories
+/**/.vs
+/**/Debug
+/**/Release
 
 # Prerequisites
 *.d
