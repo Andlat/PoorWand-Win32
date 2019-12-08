@@ -171,7 +171,7 @@ void Game::Loop(){
     
     Camera camera = Camera(0.1f, 100.f, (float)mWindow->getWidth()/(float)mWindow->getHeight(), C_PI_4);
     camera.setPosition(glm::vec3(0, 0, 15));
-    //camera.Follow(hero, false); TODO TEST THIS AGAIN> MIGHT NOT BE WORKING
+    camera.Follow(hero, true);
     
     glUseProgram(program->get());
     
