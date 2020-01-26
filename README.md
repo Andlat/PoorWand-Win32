@@ -7,6 +7,7 @@ Basic modular game engine still in development. Win32 version.
 - GLEW
 - GLFW 3
 - GLM (math)
+- SOIL 2
 
 ## Screenshot - Proof of concept (Still missing a texture manager)
 <img src="readme_pics/game-engine.png" height="500" alt="Proof of concept game engine" />
