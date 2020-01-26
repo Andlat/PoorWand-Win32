@@ -16,7 +16,7 @@ GLint TextureManager::mTextureUnits = -1;
 TextureManager::TextureManager(){
     if(mTextureUnits == -1)//Get number of texture units in the gpu
         glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &mTextureUnits);
-    
+	cout << "TEXTURE UNITS AVAILABLE: " << mTextureUnits << endl;
     mUnits.reserve(mTextureUnits);
 }
 

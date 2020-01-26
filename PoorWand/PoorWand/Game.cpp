@@ -114,7 +114,7 @@ void Game::Init(){
 		heroID = mVBOMan->addModel(hero);
 		hero->LoadTexture(true, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR);//For now, all the models use the same texture
 		
-		//Exemple creating multiple static objects with only one model and one camera
+		//Example creating multiple static objects with only one model and one camera
 		for(unsigned x=0; x < 2; ++x){
 			glm::vec3 pos(3 * pow(-1.f, x%2), 0.f, 0.f);
 
@@ -128,9 +128,8 @@ void Game::Init(){
 				wall->StaticTranslate(pos *= -1);
 			}
 		}
-		TextureManager l;
-		//l.addModel(hero);
-		
+		TextureManager texMan;
+		//texMan.addModel(hero->ID, hero->getTexturePath());
 
 
 		//Create Shaders
@@ -187,7 +186,7 @@ void Game::Loop(){
             hero->ActivateFrameControls(getTimeDelta());
         }
         
-        glClearColor(0.8f, 0, 0.5f, 0);
+        glClearColor(0.f, 1.f, 1.f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         glActiveTexture(GL_TEXTURE0);
@@ -197,7 +196,7 @@ void Game::Loop(){
         const glm::mat4 mvp[] = {camera.Construct(hero->getModelMat()), camera.Construct(wall->getModelMat())};
        
         glUniformMatrix4fv(glGetUniformLocation(program->get(), "MVP"), 2, GL_FALSE, glm::value_ptr(mvp[0]));
-		cout << glm::to_string(mvp[0]) << endl;
+		//cout << glm::to_string(mvp[0]) << endl;
         glDrawArrays(GL_TRIANGLES, 0, mVBOMan->getMemoryOffset()/(FLOAT_SIZE() * GL_ATTR::STRIDE));
 
         //cout << getTimeDelta() << endl;
