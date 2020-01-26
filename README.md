@@ -9,7 +9,7 @@ Basic game engine still in development. Win32 version.
 - GLM (math)
 
 ## Screenshot - Proof of concept (Still missing a texture manager)
-<img src="readme_pics/game-engine.png" max-height="500" alt="Proof of concept game engine" />
+<img src="readme_pics/game-engine.png" height="500" alt="Proof of concept game engine" />
 
 ## NOTE for file converter from Collada to custom format
 Have to delete the xlmns decalaration of the Collada file, since it breaks the node xml parser
